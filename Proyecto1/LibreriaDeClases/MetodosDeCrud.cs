@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace LibreriaDeClases
 {
-  public class MetodosDeCrud
+  public class MetodosDeCrud:OpcionesSuplidores
     {
-        BaseDeDatos BaseDeDatos = new BaseDeDatos();
+        
         public List<Categoria> ObtenerCategorias()
         {
             List<Categoria> ListaCategorias = new List<Categoria>();
@@ -217,157 +217,12 @@ namespace LibreriaDeClases
             BaseDeDatos.Conection.Close();
             return respuesta;
         }
-        public List<Suplidor> ObtenerListaSuplidores(SuplidoresSeleccionados datos,int IdProducto)
-        {
-            List<Suplidor> suplidors = new List<Suplidor>();
-            if (datos.PrimerSuplidor !=false)
-            {
-                suplidors.Add(new Suplidor {NombreSuplidor="Leterago", ProductoId=IdProducto });
-            }
-            if (datos.SegundoSuplidor != false)
-            {
-                suplidors.Add(new Suplidor { NombreSuplidor = "Disfarcam", ProductoId = IdProducto });
-            }
-            if (datos.TercerSuplidor != false)
-            {
-                suplidors.Add(new Suplidor { NombreSuplidor = "Ibero", ProductoId = IdProducto });
-            }
-            if (datos.CuartoSuplidor != false)
-            {
-                suplidors.Add(new Suplidor { NombreSuplidor = "Calox", ProductoId = IdProducto });
-            }
+       
 
-            return suplidors;
-        }
+       
+       
 
-        public List<Suplidor> ObtenerSuplidoresPorId(int Id)
-        {
-            List<Suplidor> suplidors = new List<Suplidor>();
-            SqlCommand Comand = BaseDeDatos.Conection.CreateCommand();
-            Comand.CommandText = "SELECT * FROM Suplidores WHERE ProductoId=@Id";
-            Comand.Parameters.AddWithValue("@Id",Id);
-            SqlDataReader reader = null;
-            BaseDeDatos.Conection.Open();
-           reader = Comand.ExecuteReader();
-            while (reader.Read())
-            {
-                Suplidor S = new Suplidor();
-                S.ProductoId = (int)reader["ProductoId"];
-                S.NombreSuplidor = (string)reader["NombreSuplidor"];
-                suplidors.Add(S);
-            }
-            BaseDeDatos.Conection.Close();
-            return suplidors;
-        }
-        public List<byte[]> ObtenerImagenesPorId(int Id)
-        {
-            List<byte[]> ListaDeImagenes = new List<byte[]>();
-            SqlCommand Comand = BaseDeDatos.Conection.CreateCommand();
-            Comand.CommandText = "SELECT * FROM ImagenesProducto WHERE IdProducto=@Id";
-            Comand.Parameters.AddWithValue("@Id", Id);
-            BaseDeDatos.Conection.Open();
-            SqlDataReader reader = Comand.ExecuteReader();
-            while (reader.Read())
-            {
-               
-                byte[] ImagenBytes = (byte[])reader["Imagen"];
-                ListaDeImagenes.Add(ImagenBytes);
-            }
-            BaseDeDatos.Conection.Close();
-            return ListaDeImagenes;
-        }
-
-        public List<Imagenes> ObtenerImagenesPorIdWF(int Id)
-        {
-            List<Imagenes> imagenes = new List<Imagenes>();
-            SqlCommand Comand = BaseDeDatos.Conection.CreateCommand();
-            Comand.CommandText = "SELECT * FROM ImagenesProducto WHERE IdProducto=@Id";
-            Comand.Parameters.AddWithValue("@Id", Id);
-            BaseDeDatos.Conection.Open();
-            SqlDataReader reader = Comand.ExecuteReader();
-            while (reader.Read())
-            {
-                Imagenes img = new Imagenes();
-                //img.IdProducto = (int)reader["IdProducto"];
-               // img.IdImagenes = (int)reader["IdImagenes"];
-                img.Imagen = (byte[])reader["Imagen"];
-                imagenes.Add(img);
-
-            }
-            BaseDeDatos.Conection.Close();
-
-            return imagenes;
-        }
-        public void VaciarSuplidoresDeProducto(int Id)
-        {
-            SqlCommand comand = BaseDeDatos.Conection.CreateCommand();
-            comand.CommandText = "DELETE FROM Suplidores WHERE ProductoId=@Id";
-            comand.Parameters.AddWithValue("@Id",Id);
-            BaseDeDatos.Conection.Open();
-            comand.ExecuteNonQuery();
-            BaseDeDatos.Conection.Close();
-        }
-        public void VaciarImagenesDeProducto(int Id)
-        {
-            SqlCommand comand = BaseDeDatos.Conection.CreateCommand();
-            comand.CommandText = "DELETE FROM ImagenesProducto WHERE IdProducto=@Id";
-            comand.Parameters.AddWithValue("@Id", Id);
-            BaseDeDatos.Conection.Open();
-            comand.ExecuteNonQuery();
-            BaseDeDatos.Conection.Close();
-        }
-        public bool AgregarProductoEscritorio(Producto producto, List<string> suplidores)
-        {
-
-            bool respuesta = true;
-
-            SqlCommand Comand = null;
-            Comand = BaseDeDatos.Conection.CreateCommand();
-            Comand.CommandText = "insert into Productos(Nombre,PrecioM,PrecioD,Descripcion,CategoriaId) VALUES (@Nombre,@PrecioM,@PrecioD,@Descripcion,@CategoriaId); SELECT SCOPE_IDENTITY()";
-            Comand.Parameters.AddWithValue("@Nombre", producto.Nombre);
-            Comand.Parameters.AddWithValue("@PrecioM", producto.PrecioM);
-            Comand.Parameters.AddWithValue("@PrecioD", producto.PrecioD);
-
-            Comand.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
-            Comand.Parameters.AddWithValue("@CategoriaId", producto.CategoriaId);
-
-
-            BaseDeDatos.Conection.Open();
-            int insertedID = Convert.ToInt32(Comand.ExecuteScalar());
-            if (insertedID > 0)
-            {
-                respuesta = true;
-
-              
-                //agregar suplidores
-                if (suplidores.Count >0)
-                {
-                    foreach (var item in suplidores)
-                    {
-                        SqlCommand cmd = BaseDeDatos.Conection.CreateCommand();
-                        cmd.CommandText = "INSERT INTO Suplidores(ProductoId,NombreSuplidor) VALUES (@ProductoId,@NombreSuplidor)";
-                        cmd.Parameters.AddWithValue("@ProductoId", insertedID);
-                        cmd.Parameters.AddWithValue("@NombreSuplidor", item);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                //INSERTAMOS LAS IMAGENES CON EL ID DEL PRODUCTO
-                foreach (var item in producto.Imagenes)
-                {
-                    SqlCommand comand = BaseDeDatos.Conection.CreateCommand();
-                    comand.CommandText = "INSERT INTO ImagenesProducto(IdProducto,Imagen) VALUES (@IdProducto,@Imagen)";
-                    comand.Parameters.AddWithValue("@IdProducto", insertedID);
-                    comand.Parameters.AddWithValue("@Imagen", item);
-                    comand.ExecuteNonQuery();
-
-                }
-
-            }
-            else { respuesta = false; }
-
-            BaseDeDatos.Conection.Close();
-
-            return respuesta;
-        }
+       
+      
     }
 }

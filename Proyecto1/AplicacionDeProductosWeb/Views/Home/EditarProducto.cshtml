@@ -1,0 +1,94 @@
+﻿@model LibreriaDeClases.VMProductoCategoria
+@{
+    ViewBag.Title = "EditarProducto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+     List<SelectListItem> lst = new List<SelectListItem>();
+            foreach (var item in Model.categorias)
+            {
+                lst.Add(new SelectListItem() { Text = item.NombreCategoria, Value = item.IdCategoria.ToString() });
+
+            }
+}
+
+<h2>EditarProducto</h2>
+<br />
+
+@Html.ActionLink("Volver", "Index", "Home")
+<br />
+
+
+@using (Html.BeginForm("EditarProducto", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container">
+        <div class="col-md-6">
+            <input name="Id" value="@Model.producto.Id" hidden="hidden" type="number" />
+            <div>
+                @Html.LabelFor(x => x.producto.Nombre)
+                @Html.TextBox("Nombre", Model.producto.Nombre, new { @class = "form-control" })
+                @Html.ValidationMessage("Nombre", new { @class = "error" })
+            </div>
+            <div>
+                @Html.LabelFor(x => x.producto.PrecioM)
+                @Html.TextBox("PrecioM", Model.producto.PrecioM, new { @class = "form-control" })
+                @Html.ValidationMessage("PrecioM", new { @class = "error" })
+            </div>
+            <div>
+                @Html.LabelFor(x => x.producto.PrecioD)
+                @Html.TextBox("PrecioD", Model.producto.PrecioD, new { @class = "form-control" })
+                @Html.ValidationMessage("PrecioD", new { @class = "error" })
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div>
+                @Html.LabelFor(x => x.producto.Descripcion)
+                @Html.TextArea("Descripcion", Model.producto.Descripcion, new { @class = "form-control" })
+                @Html.ValidationMessage("Descripcion", new { @class = "error" })
+            </div>
+
+            <div>
+                @Html.LabelFor(x => x.producto.CategoriaId)
+                @Html.DropDownList("CategoriaId", lst, "Elije una categoria", new { @class = "form-control" })
+
+                @Html.ValidationMessage("CategoriaId", new { @class = "error" })
+            </div>
+            <div>
+                <label>Suplidores</label>
+                <div class="form-check">
+                    @Html.CheckBox("PrimerSuplidor", new { @class = "form-check-input", id = "PrimerSuplidor" })
+                    @Html.Label("PrimerSuplidor", "Leterago", new { @class = "form-check-label" })
+                </div>
+                <div class="form-check">
+                    @Html.CheckBox("SegundoSuplidor", new { @class = "form-check-input", id = "SegundoSuplidor" })
+                    @Html.Label("SegundoSuplidor", "Disfarcam", new { @class = "form-check-label" })
+                </div>
+                <div class="form-check">
+                    @Html.CheckBox("TercerSuplidor", new { @class = "form-check-input", id = "TercerSuplidor" })
+                    @Html.Label("TercerSuplidor", "Ibero", new { @class = "form-check-label" })
+                </div>
+                <div class="form-check">
+                    @Html.CheckBox("CuartoSuplidor", new { @class = "form-check-input", id = "CuartoSuplidor" })
+                    @Html.Label("CuartoSuplidor", "Calox", new { @class = "form-check-label" })
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-md-6">
+                <div>
+                    <label for="FotoSubida">Fotos</label>
+                    <input name="FotoSubida" id="FotoSubida" type="file" accept="image/*" multiple required class="form-control" />
+                    @Html.ValidationMessage("FotoSubida1", new { @class = "error" })
+                </div>
+            </div>
+           
+        </div>
+        <button type="submit" class="btn btn-primary">Editar</button>
+    </div>
+}
+
+<style>
+    .error {
+        color: red;
+    }
+</style>

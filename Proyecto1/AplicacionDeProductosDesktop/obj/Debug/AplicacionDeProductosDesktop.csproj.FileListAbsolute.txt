@@ -1,0 +1,16 @@
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\bin\Debug\AplicacionDeProductosDesktop.exe.config
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\bin\Debug\AplicacionDeProductosDesktop.exe
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\bin\Debug\AplicacionDeProductosDesktop.pdb
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\bin\Debug\LibreriaDeClases.dll
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\bin\Debug\LibreriaDeClases.pdb
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.csprojAssemblyReference.cache
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.Form1.resources
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.Properties.Resources.resources
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.csproj.GenerateResource.cache
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.csproj.CoreCompileInputs.cache
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.csproj.CopyComplete
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.exe
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.pdb
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.Formularios.AgregarProducto.resources
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.Formularios.MostrarDatos.resources
+C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\AplicacionDeProductosDesktop\obj\Debug\AplicacionDeProductosDesktop.Formularios.FormularioEditar.resources

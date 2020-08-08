@@ -1,0 +1,120 @@
+﻿@model List<LibreriaDeClases.ProductoCategoria>
+@{
+    ViewBag.Title = "Home Page";
+    
+}
+<br />
+<h3>Lista de productos</h3>
+<h4>@Html.ActionLink("Agregar Producto","AgregarProducto")</h4>
+<br />
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Imagen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img class="img-responsive" id="ImagenModal" src="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+           <td>Imagenes</td>
+            <td>Nombre</td>
+            <td>Precio por mayor</td>
+            <td>Precio por menor</td>
+            <td>Suplidores</td>
+            <td>Descripcion</td>
+            <td>Categoria</td>
+            
+            <td>Acciones</td>
+        </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+           <td><ul>
+                @if (item.Imagenes.Count > 0)
+                {
+                    foreach (var img in item.Imagenes)
+                    {
+                        <li>
+                            <img width="100" height="100" class="exampleModal" src="data:image/png;base64,@Convert.ToBase64String(img)" />
+                        </li>
+                    }
+                   
+                }
+</ul>
+           </td>
+            <td>@item.Nombre</td>
+            <td>@item.PrecioM</td>
+            <td>@item.PrecioD</td>
+            <td><ul>
+                    @if (item.Suplidores.Count > 0)
+                    {
+                        foreach (var suplidor in item.Suplidores)
+                        {
+                            <li>@suplidor.NombreSuplidor</li>
+                        }
+
+                    }
+                </ul>
+            </td>
+            <td>@item.Descripcion</td>
+            <td>@item.NombreCategoria</td>
+           
+            <td>
+
+                @using (Html.BeginForm("EditarProducto", "Home", FormMethod.Get))
+                {
+                    <button type="submit" value="@item.IdProducto" name="Id" class="btn btn-success">Editar</button>
+                }
+                @using (Html.BeginForm("EliminarProducto", "Home", FormMethod.Post, new { onsubmit = "ConfirmacionDePost()" }))
+                {
+                    <button type="submit" value="@item.IdProducto" name="Id" class="btn btn-danger">Eliminar</button>
+                }
+                <form></form>
+            </td>
+        </tr>
+      }
+    </tbody>
+</table>
+<script>
+    function ConfirmacionDePost() {
+        
+       
+        var respuesta = confirm("Desea eliminar el producto?");
+
+        if (respuesta) {
+
+        } else {
+          event.preventDefault();
+        }
+        return respuesta;
+    }
+   
+   /* $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus');
+       
+
+        })*/
+</script>
+<style>
+    .exampleModal{
+        color:black;
+        cursor:pointer;
+    }
+</style>
+

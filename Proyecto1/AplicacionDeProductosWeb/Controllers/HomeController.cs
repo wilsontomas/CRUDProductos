@@ -9,25 +9,31 @@ namespace AplicacionDeProductosWeb.Controllers
 {
     public class HomeController : Controller
     {
+        IMetodosDeCrud metodos;
+
+        public HomeController(IMetodosDeCrud metodos)
+        {
+            this.metodos = metodos;
+        }
         public ActionResult Index()
         {
-            MetodosDeCrud clases = new MetodosDeCrud();
+            
             List<ProductoCategoria> productos = new List<ProductoCategoria>();
-            productos = clases.ObtenerProductosCategorias();
+            productos = metodos.ObtenerProductosCategorias();
             foreach (var item in productos)
             {
-                item.Suplidores = clases.ObtenerSuplidoresPorId(item.IdProducto);
+                item.Suplidores = metodos.ObtenerSuplidoresPorId(item.IdProducto);
             }
             foreach(var item in productos)
             {
-                item.Imagenes = clases.ObtenerImagenesPorId(item.IdProducto);
+                item.Imagenes = metodos.ObtenerImagenesPorId(item.IdProducto);
             }
             return View(productos);
         }
         public ActionResult AgregarProducto()
         {
             ViewBag.Respuesta = "";
-            MetodosDeCrud metodos = new MetodosDeCrud();
+            
             Producto producto = new Producto();
             VMProductoCategoria VM = new VMProductoCategoria();
             VM.categorias = metodos.ObtenerCategorias();
@@ -38,7 +44,7 @@ namespace AplicacionDeProductosWeb.Controllers
         public ActionResult AgregarProducto(Producto agregado,List<HttpPostedFileBase> FotoSubida, SuplidoresSeleccionados suplidores)
         {
             ViewBag.Respuesta = "";
-            MetodosDeCrud metodos = new MetodosDeCrud();
+            
 
             if(FotoSubida.Count >0)
             {
@@ -81,7 +87,7 @@ namespace AplicacionDeProductosWeb.Controllers
         [HttpPost]
         public ActionResult EliminarProducto(int Id)
         {
-            MetodosDeCrud metodos = new MetodosDeCrud();
+           
             if (ModelState.IsValid)
             {
                metodos.EliminarProducto(Id);
@@ -92,7 +98,7 @@ namespace AplicacionDeProductosWeb.Controllers
         public ActionResult EditarProducto(int Id)
         {
             VMProductoCategoria VM = new VMProductoCategoria();
-            MetodosDeCrud metodos = new MetodosDeCrud();
+          
             VM.producto = metodos.BuscarProducto(Id);
             VM.categorias = metodos.ObtenerCategorias();
             return View(VM);
@@ -100,7 +106,7 @@ namespace AplicacionDeProductosWeb.Controllers
         [HttpPost]
         public ActionResult EditarProducto(int Id,Producto producto, List<HttpPostedFileBase> FotoSubida, SuplidoresSeleccionados suplidores)
         {
-            MetodosDeCrud metodos = new MetodosDeCrud();
+            
             if (FotoSubida.Count >0)
             {
                 List<byte[]> ListaDeFotos = new List<byte[]>();

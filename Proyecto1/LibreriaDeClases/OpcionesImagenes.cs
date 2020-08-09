@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace LibreriaDeClases
 {
-    public class OpcionesImagenes{
-      public BaseDeDatos BaseDeDatos = new BaseDeDatos();
+    public class OpcionesImagenes : IOpcionesImagenes
+    {
+        public BaseDeDatos BaseDeDatos = new BaseDeDatos();
         public List<Imagenes> ObtenerImagenesPorIdWF(int Id)
         {
             List<Imagenes> imagenes = new List<Imagenes>();

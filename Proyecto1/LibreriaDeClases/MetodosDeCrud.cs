@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace LibreriaDeClases
 {
-  public class MetodosDeCrud:OpcionesSuplidores
+    public class MetodosDeCrud : OpcionesSuplidores, IMetodosDeCrud
     {
-        
+
         public List<Categoria> ObtenerCategorias()
         {
             List<Categoria> ListaCategorias = new List<Categoria>();
@@ -28,7 +28,7 @@ namespace LibreriaDeClases
                 c.NombreCategoria = (string)Reader["NombreCategoria"];
                 ListaCategorias.Add(c);
             }
-            
+
             BaseDeDatos.Conection.Close();
 
             return ListaCategorias;
@@ -51,12 +51,12 @@ namespace LibreriaDeClases
                 Product.Nombre = (string)Reader["Nombre"];
                 Product.PrecioM = (decimal)Reader["PrecioM"];
                 Product.PrecioD = (decimal)Reader["PrecioD"];
-               
-               
+
+
                 Product.Descripcion = (string)Reader["Descripcion"];
-              
+
                 Product.NombreCategoria = (string)Reader["NombreCategoria"];
-               // Product.Suplidores = ObtenerSuplidoresPorId(Product.IdProducto);
+                // Product.Suplidores = ObtenerSuplidoresPorId(Product.IdProducto);
 
                 Productos.Add(Product);
             }
@@ -68,7 +68,7 @@ namespace LibreriaDeClases
 
         public bool AgregarProducto(Producto producto, SuplidoresSeleccionados suplidores)
         {
-          
+
             bool respuesta = true;
 
             SqlCommand Comand = null;
@@ -77,7 +77,7 @@ namespace LibreriaDeClases
             Comand.Parameters.AddWithValue("@Nombre", producto.Nombre);
             Comand.Parameters.AddWithValue("@PrecioM", producto.PrecioM);
             Comand.Parameters.AddWithValue("@PrecioD", producto.PrecioD);
-  
+
             Comand.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
             Comand.Parameters.AddWithValue("@CategoriaId", producto.CategoriaId);
 
@@ -91,11 +91,11 @@ namespace LibreriaDeClases
                 if (suplidors.Count > 0)
                 {
                     //insertamos los suplidores con el id del producto
-                    foreach(var item in suplidors)
+                    foreach (var item in suplidors)
                     {
                         SqlCommand cmd = BaseDeDatos.Conection.CreateCommand();
                         cmd.CommandText = "INSERT INTO Suplidores(ProductoId,NombreSuplidor) VALUES (@ProductoId,@NombreSuplidor)";
-                        cmd.Parameters.AddWithValue("@ProductoId",item.ProductoId);
+                        cmd.Parameters.AddWithValue("@ProductoId", item.ProductoId);
                         cmd.Parameters.AddWithValue("@NombreSuplidor", item.NombreSuplidor);
                         cmd.ExecuteNonQuery();
                     }
@@ -116,21 +116,21 @@ namespace LibreriaDeClases
 
             BaseDeDatos.Conection.Close();
 
-                return respuesta;
+            return respuesta;
         }
 
         public bool EliminarProducto(int Id)
         {
             //primero vaciamos los registros que poseen el id del producto
             #region
-          VaciarSuplidoresDeProducto(Id);
+            VaciarSuplidoresDeProducto(Id);
             VaciarImagenesDeProducto(Id);
             #endregion
 
             bool respuesta = false;
             SqlCommand comando = BaseDeDatos.Conection.CreateCommand();
             comando.CommandText = "DELETE FROM Productos WHERE IdProducto=@Id";
-            comando.Parameters.AddWithValue("@Id",Id);
+            comando.Parameters.AddWithValue("@Id", Id);
 
 
             BaseDeDatos.Conection.Open();
@@ -144,12 +144,12 @@ namespace LibreriaDeClases
 
         public Producto BuscarProducto(int Id)
         {
-           
+
             SqlDataReader DatosProducto = null;
             Producto producto = new Producto();
             SqlCommand comando = BaseDeDatos.Conection.CreateCommand();
             comando.CommandText = "Select * from Productos WHERE IdProducto=@Id";
-            comando.Parameters.AddWithValue("@Id",Id);
+            comando.Parameters.AddWithValue("@Id", Id);
 
             BaseDeDatos.Conection.Open();
             DatosProducto = comando.ExecuteReader();
@@ -160,13 +160,13 @@ namespace LibreriaDeClases
                 producto.PrecioM = (decimal)DatosProducto["PrecioM"];
                 producto.PrecioD = (decimal)DatosProducto["PrecioD"];
                 producto.CategoriaId = (int)DatosProducto["CategoriaId"];
-               
+
                 producto.Descripcion = (string)DatosProducto["Descripcion"];
-              
+
 
             }
             BaseDeDatos.Conection.Close();
-            
+
             return producto;
         }
 
@@ -174,24 +174,24 @@ namespace LibreriaDeClases
         {
 
             //primero vaciamos los suplidores y las imagenes del producto a editar
-           VaciarSuplidoresDeProducto(producto.Id);
+            VaciarSuplidoresDeProducto(producto.Id);
             VaciarImagenesDeProducto(producto.Id);
             //creamos la variable de respuesta
             bool respuesta = false;
             SqlCommand comando = BaseDeDatos.Conection.CreateCommand();
 
             comando.CommandText = "UPDATE Productos SET Nombre=@Nombre, PrecioM=@PrecioM, PrecioD=@PrecioD, CategoriaId=@CategoriaId, Descripcion=@Descripcion WHERE IdProducto=@Id";
-            comando.Parameters.AddWithValue("@Id",producto.Id);
-            comando.Parameters.AddWithValue("@Nombre",producto.Nombre);
-            comando.Parameters.AddWithValue("@PrecioM",producto.PrecioM);
+            comando.Parameters.AddWithValue("@Id", producto.Id);
+            comando.Parameters.AddWithValue("@Nombre", producto.Nombre);
+            comando.Parameters.AddWithValue("@PrecioM", producto.PrecioM);
             comando.Parameters.AddWithValue("@PrecioD", producto.PrecioD);
-            comando.Parameters.AddWithValue("@CategoriaId",producto.CategoriaId);
-           
-            comando.Parameters.AddWithValue("@Descripcion",producto.Descripcion);
+            comando.Parameters.AddWithValue("@CategoriaId", producto.CategoriaId);
+
+            comando.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
 
 
             BaseDeDatos.Conection.Open();
-            if (comando.ExecuteNonQuery() >0)
+            if (comando.ExecuteNonQuery() > 0)
             {
                 foreach (var item in producto.Suplidores)
                 {
@@ -217,12 +217,12 @@ namespace LibreriaDeClases
             BaseDeDatos.Conection.Close();
             return respuesta;
         }
-       
 
-       
-       
 
-       
-      
+
+
+
+
+
     }
 }

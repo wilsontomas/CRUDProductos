@@ -4,3 +4,9 @@ C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\Li
 C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\LibreriaDeClases\bin\Debug\LibreriaDeClases.pdb
 C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\LibreriaDeClases\obj\Debug\LibreriaDeClases.dll
 C:\Users\F2F\Desktop\Eduar\2020-C2\Programacion avanzada\Proyecto 1\Proyecto1\LibreriaDeClases\obj\Debug\LibreriaDeClases.pdb
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\bin\Debug\LibreriaDeClases.dll
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\bin\Debug\LibreriaDeClases.pdb
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\obj\Debug\LibreriaDeClases.csprojAssemblyReference.cache
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\obj\Debug\LibreriaDeClases.csproj.CoreCompileInputs.cache
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\obj\Debug\LibreriaDeClases.dll
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\obj\Debug\LibreriaDeClases.pdb

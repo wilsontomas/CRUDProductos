@@ -46,7 +46,12 @@
     <Compile Include="Categoria.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Imagenes.cs" />
+    <Compile Include="IMetodosDeCrud.cs" />
+    <Compile Include="IOpcionesImagenes.cs" />
+    <Compile Include="IOpcionesSuplidores.cs" />
     <Compile Include="MetodosDeCrud.cs" />
+    <Compile Include="OpcionesImagenes.cs" />
+    <Compile Include="OpcionesSuplidores.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="ProductoCategoria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

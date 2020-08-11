@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Dapper;
 namespace LibreriaDeClases
 {
     public class OpcionesImagenes : IOpcionesImagenes
@@ -58,6 +58,16 @@ namespace LibreriaDeClases
             }
             BaseDeDatos.Conection.Close();
             return ListaDeImagenes;
+        }
+
+        public void InsertarImagenes(int Id, List<byte[]> imagenes)
+        {
+        
+            foreach (var item in imagenes)
+            {
+                string sql = "INSERT INTO ImagenesProducto(IdProducto,Imagen) VALUES (@IdProducto,@Imagen)";
+                BaseDeDatos.Conection.Query(sql, new { IdProducto=Id, Imagen=item });
+            }
         }
     }
 }

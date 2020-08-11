@@ -7,5 +7,7 @@ namespace LibreriaDeClases
         List<Suplidor> ObtenerListaSuplidores(SuplidoresSeleccionados datos, int IdProducto);
         List<Suplidor> ObtenerSuplidoresPorId(int Id);
         void VaciarSuplidoresDeProducto(int Id);
+
+        void InsertarSuplidores(SuplidoresSeleccionados datos, int Id);
     }
 }

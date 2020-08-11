@@ -10,3 +10,6 @@ C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\obj\Debug
 C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\obj\Debug\LibreriaDeClases.csproj.CoreCompileInputs.cache
 C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\obj\Debug\LibreriaDeClases.dll
 C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\obj\Debug\LibreriaDeClases.pdb
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\bin\Debug\Dapper.dll
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\bin\Debug\Dapper.xml
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\LibreriaDeClases\obj\Debug\LibreriaDeClases.csproj.CopyComplete

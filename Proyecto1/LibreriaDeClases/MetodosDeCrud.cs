@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Dapper;
 namespace LibreriaDeClases
 {
     public class MetodosDeCrud : OpcionesSuplidores, IMetodosDeCrud
@@ -12,57 +12,20 @@ namespace LibreriaDeClases
 
         public List<Categoria> ObtenerCategorias()
         {
-            List<Categoria> ListaCategorias = new List<Categoria>();
-            SqlCommand Comand = null;
-            SqlDataReader Reader = null;
-            Comand = BaseDeDatos.Conection.CreateCommand();
-            Comand.CommandText = "SELECT * FROM Categoria";
-
-            BaseDeDatos.Conection.Open();
-
-            Reader = Comand.ExecuteReader();
-            while (Reader.Read())
-            {
-                Categoria c = new Categoria();
-                c.IdCategoria = (int)Reader["IdCategoria"];
-                c.NombreCategoria = (string)Reader["NombreCategoria"];
-                ListaCategorias.Add(c);
-            }
-
-            BaseDeDatos.Conection.Close();
-
+           
+           string sql = "SELECT * FROM Categoria";
+           var ListaCategorias = BaseDeDatos.Conection.Query<Categoria>(sql).ToList();
+         
             return ListaCategorias;
         }
 
         public List<ProductoCategoria> ObtenerProductosCategorias()
         {
-            List<ProductoCategoria> Productos = new List<ProductoCategoria>();
-            SqlCommand Comand = null;
-            SqlDataReader Reader = null;
-            Comand = BaseDeDatos.Conection.CreateCommand();
-            Comand.CommandText = "SELECT Productos.IdProducto, Productos.Nombre, Productos.PrecioM,Productos.PrecioD,Productos.Descripcion, Categoria.NombreCategoria FROM Productos INNER JOIN Categoria ON Productos.CategoriaId = Categoria.IdCategoria";
+          
+          string sql = "SELECT Productos.IdProducto, Productos.Nombre, Productos.PrecioM,Productos.PrecioD,Productos.Descripcion, Categoria.NombreCategoria FROM Productos INNER JOIN Categoria ON Productos.CategoriaId = Categoria.IdCategoria";
+          var Productos = BaseDeDatos.Conection.Query<ProductoCategoria>(sql).ToList();
 
-            BaseDeDatos.Conection.Open();
-            Reader = Comand.ExecuteReader();
-            while (Reader.Read())
-            {
-                ProductoCategoria Product = new ProductoCategoria();
-                Product.IdProducto = (int)Reader["IdProducto"];
-                Product.Nombre = (string)Reader["Nombre"];
-                Product.PrecioM = (decimal)Reader["PrecioM"];
-                Product.PrecioD = (decimal)Reader["PrecioD"];
-
-
-                Product.Descripcion = (string)Reader["Descripcion"];
-
-                Product.NombreCategoria = (string)Reader["NombreCategoria"];
-                // Product.Suplidores = ObtenerSuplidoresPorId(Product.IdProducto);
-
-                Productos.Add(Product);
-            }
-            BaseDeDatos.Conection.Close();
-
-            return Productos;
+          return Productos;
         }
 
 
@@ -71,46 +34,24 @@ namespace LibreriaDeClases
 
             bool respuesta = true;
 
-            SqlCommand Comand = null;
-            Comand = BaseDeDatos.Conection.CreateCommand();
-            Comand.CommandText = "insert into Productos(Nombre,PrecioM,PrecioD,Descripcion,CategoriaId) VALUES (@Nombre,@PrecioM,@PrecioD,@Descripcion,@CategoriaId); SELECT SCOPE_IDENTITY()";
-            Comand.Parameters.AddWithValue("@Nombre", producto.Nombre);
-            Comand.Parameters.AddWithValue("@PrecioM", producto.PrecioM);
-            Comand.Parameters.AddWithValue("@PrecioD", producto.PrecioD);
+                string sql ="insert into Productos(Nombre,PrecioM,PrecioD,Descripcion,CategoriaId) VALUES (@Nombre,@PrecioM,@PrecioD,@Descripcion,@CategoriaId); SELECT SCOPE_IDENTITY()";
 
-            Comand.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
-            Comand.Parameters.AddWithValue("@CategoriaId", producto.CategoriaId);
+                int insertedID = BaseDeDatos.Conection.QuerySingle<int>(sql, new {
+                @Nombre = producto.Nombre,
+                @PrecioM = producto.PrecioM,
+                @PrecioD = producto.PrecioD,
+                @Descripcion =  producto.Descripcion,
+                @CategoriaId = producto.CategoriaId
+                 });
 
-
-            BaseDeDatos.Conection.Open();
-            int insertedID = Convert.ToInt32(Comand.ExecuteScalar());
             if (insertedID > 0)
             {
                 respuesta = true;
-                List<Suplidor> suplidors = ObtenerListaSuplidores(suplidores, insertedID);
-                if (suplidors.Count > 0)
-                {
-                    //insertamos los suplidores con el id del producto
-                    foreach (var item in suplidors)
-                    {
-                        SqlCommand cmd = BaseDeDatos.Conection.CreateCommand();
-                        cmd.CommandText = "INSERT INTO Suplidores(ProductoId,NombreSuplidor) VALUES (@ProductoId,@NombreSuplidor)";
-                        cmd.Parameters.AddWithValue("@ProductoId", item.ProductoId);
-                        cmd.Parameters.AddWithValue("@NombreSuplidor", item.NombreSuplidor);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                //INSERTAR LOS SUPLIDORES
+                InsertarSuplidores(suplidores, insertedID);
                 //INSERTAMOS LAS IMAGENES CON EL ID DEL PRODUCTO
-                foreach (var item in producto.Imagenes)
-                {
-                    SqlCommand comand = BaseDeDatos.Conection.CreateCommand();
-                    comand.CommandText = "INSERT INTO ImagenesProducto(IdProducto,Imagen) VALUES (@IdProducto,@Imagen)";
-                    comand.Parameters.AddWithValue("@IdProducto", insertedID);
-                    comand.Parameters.AddWithValue("@Imagen", item);
-                    comand.ExecuteNonQuery();
-
-                }
-
+                 InsertarImagenes(insertedID, producto.Imagenes);
+         
             }
             else { respuesta = false; }
 

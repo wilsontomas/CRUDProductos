@@ -180,3 +180,5 @@ C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\AplicacionDeProductosWeb\b
 C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\AplicacionDeProductosWeb\bin\Unity.Container.pdb
 C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\AplicacionDeProductosWeb\bin\Unity.Mvc.pdb
 C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\AplicacionDeProductosWeb\bin\Unity.Mvc.xml
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\AplicacionDeProductosWeb\bin\Dapper.dll
+C:\Users\F2F\Desktop\proyecto\CRUDProductos\Proyecto1\AplicacionDeProductosWeb\bin\Dapper.xml

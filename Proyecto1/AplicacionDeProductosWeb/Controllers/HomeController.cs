@@ -18,8 +18,8 @@ namespace AplicacionDeProductosWeb.Controllers
         public ActionResult Index()
         {
             
-            List<ProductoCategoria> productos = new List<ProductoCategoria>();
-            productos = metodos.ObtenerProductosCategorias();
+            //List<ProductoCategoria> productos = new List<ProductoCategoria>();
+           var productos = metodos.ObtenerProductosCategorias();
             foreach (var item in productos)
             {
                 item.Suplidores = metodos.ObtenerSuplidoresPorId(item.IdProducto);
@@ -139,18 +139,6 @@ namespace AplicacionDeProductosWeb.Controllers
             return View(VM);
         }
        
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+       
     }
 }

@@ -67,14 +67,7 @@ using Dapper;
             if (suplidors.Count > 0)
             {
                 //insertamos los suplidores con el id del producto
-              /*  foreach (var item in suplidors)
-                {
-                    SqlCommand cmd = BaseDeDatos.Conection.CreateCommand();
-                    cmd.CommandText = "INSERT INTO Suplidores(ProductoId,NombreSuplidor) VALUES (@ProductoId,@NombreSuplidor)";
-                    cmd.Parameters.AddWithValue("@ProductoId", item.ProductoId);
-                    cmd.Parameters.AddWithValue("@NombreSuplidor", item.NombreSuplidor);
-                    cmd.ExecuteNonQuery();
-                }*/
+             
                  string sql = "INSERT INTO Suplidores(ProductoId,NombreSuplidor) VALUES (@ProductoId,@NombreSuplidor)";
                 foreach (var item in suplidors)
                 {
@@ -82,6 +75,20 @@ using Dapper;
                 }
             
             }
+        }
+
+        public void InsertarSuplidoresObj(List<Suplidor> lista, int Id)
+        {
+            if(lista.Count > 0)
+            {
+                string sql = "INSERT INTO Suplidores(ProductoId,NombreSuplidor) VALUES (@ProductoId,@NombreSuplidor)";
+                    foreach(var item in lista)
+                    {
+                        BaseDeDatos.Conection.Execute(sql, new { @ProductoId = Id, @NombreSuplidor=item.NombreSuplidor });
+                    }
+            }
+           
+           
         }
     }
 }

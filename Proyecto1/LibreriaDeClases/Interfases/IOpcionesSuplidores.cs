@@ -9,5 +9,6 @@ namespace LibreriaDeClases
         void VaciarSuplidoresDeProducto(int Id);
 
         void InsertarSuplidores(SuplidoresSeleccionados datos, int Id);
+        void InsertarSuplidoresObj(List<Suplidor> lista, int Id);
     }
 }

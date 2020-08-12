@@ -69,7 +69,13 @@ namespace LibreriaDeClases
             #endregion
 
             bool respuesta = false;
-            SqlCommand comando = BaseDeDatos.Conection.CreateCommand();
+            string sql = "DELETE FROM Productos WHERE IdProducto=@IdProducto";
+            if(BaseDeDatos.Conection.Execute(sql, new { @IdProducto = Id }) > 0)
+            {
+                respuesta = true;
+            }
+               
+          /*  SqlCommand comando = BaseDeDatos.Conection.CreateCommand();
             comando.CommandText = "DELETE FROM Productos WHERE IdProducto=@Id";
             comando.Parameters.AddWithValue("@Id", Id);
 
@@ -79,35 +85,16 @@ namespace LibreriaDeClases
             {
                 respuesta = true;
             }
-            BaseDeDatos.Conection.Close();
+            BaseDeDatos.Conection.Close();*/
             return respuesta;
         }
 
         public Producto BuscarProducto(int Id)
         {
 
-            SqlDataReader DatosProducto = null;
-            Producto producto = new Producto();
-            SqlCommand comando = BaseDeDatos.Conection.CreateCommand();
-            comando.CommandText = "Select * from Productos WHERE IdProducto=@Id";
-            comando.Parameters.AddWithValue("@Id", Id);
-
-            BaseDeDatos.Conection.Open();
-            DatosProducto = comando.ExecuteReader();
-            while (DatosProducto.Read())
-            {
-                producto.Id = (int)DatosProducto["IdProducto"];
-                producto.Nombre = (string)DatosProducto["Nombre"];
-                producto.PrecioM = (decimal)DatosProducto["PrecioM"];
-                producto.PrecioD = (decimal)DatosProducto["PrecioD"];
-                producto.CategoriaId = (int)DatosProducto["CategoriaId"];
-
-                producto.Descripcion = (string)DatosProducto["Descripcion"];
-
-
-            }
-            BaseDeDatos.Conection.Close();
-
+            string sql = "Select * from Productos WHERE IdProducto=@IdProducto";
+            var producto = BaseDeDatos.Conection.QuerySingle<Producto>(sql, new { @IdProducto = Id });
+            producto.Id = Id;
             return producto;
         }
 
@@ -119,43 +106,18 @@ namespace LibreriaDeClases
             VaciarImagenesDeProducto(producto.Id);
             //creamos la variable de respuesta
             bool respuesta = false;
-            SqlCommand comando = BaseDeDatos.Conection.CreateCommand();
-
-            comando.CommandText = "UPDATE Productos SET Nombre=@Nombre, PrecioM=@PrecioM, PrecioD=@PrecioD, CategoriaId=@CategoriaId, Descripcion=@Descripcion WHERE IdProducto=@Id";
-            comando.Parameters.AddWithValue("@Id", producto.Id);
-            comando.Parameters.AddWithValue("@Nombre", producto.Nombre);
-            comando.Parameters.AddWithValue("@PrecioM", producto.PrecioM);
-            comando.Parameters.AddWithValue("@PrecioD", producto.PrecioD);
-            comando.Parameters.AddWithValue("@CategoriaId", producto.CategoriaId);
-
-            comando.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
-
-
-            BaseDeDatos.Conection.Open();
-            if (comando.ExecuteNonQuery() > 0)
-            {
-                foreach (var item in producto.Suplidores)
-                {
-                    //despues de editar el producto se insertan los nuevo suplidores
-                    SqlCommand cmd = BaseDeDatos.Conection.CreateCommand();
-                    cmd.CommandText = "INSERT INTO Suplidores(ProductoId,NombreSuplidor) VALUES (@ProductoId,@NombreSuplidor)";
-                    cmd.Parameters.AddWithValue("@ProductoId", item.ProductoId);
-                    cmd.Parameters.AddWithValue("@NombreSuplidor", item.NombreSuplidor);
-                    cmd.ExecuteNonQuery();
-                }
-                //insertamos las imagenes con el id del producto que se esta editando
-                foreach (var item in producto.Imagenes)
-                {
-                    SqlCommand comand = BaseDeDatos.Conection.CreateCommand();
-                    comand.CommandText = "INSERT INTO ImagenesProducto(IdProducto,Imagen) VALUES (@IdProducto,@Imagen)";
-                    comand.Parameters.AddWithValue("@IdProducto", producto.Id);
-                    comand.Parameters.AddWithValue("@Imagen", item);
-                    comand.ExecuteNonQuery();
-
-                }
+          
+            string sql = "UPDATE Productos SET Nombre=@Nombre, PrecioM=@PrecioM, PrecioD=@PrecioD, CategoriaId=@CategoriaId, Descripcion=@Descripcion WHERE IdProducto=@IdProducto";
+            int contador =  BaseDeDatos.Conection.Execute(sql, new { @Nombre= producto.Nombre, @PrecioM=producto.PrecioM, @PrecioD=producto.PrecioD, @CategoriaId=producto.CategoriaId, @Descripcion=producto.Descripcion, @IdProducto=producto.Id });
+            if (contador > 0)
+            {             
+                //InsertarSuplidores(producto.Suplidores, producto.Id);
+                InsertarSuplidoresObj(producto.Suplidores, producto.Id);
+                //insertamos las imagenes con el id del producto que se esta editando             
+                InsertarImagenes( producto.Id, producto.Imagenes);
                 respuesta = true;
             }
-            BaseDeDatos.Conection.Close();
+          
             return respuesta;
         }
 

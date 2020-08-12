@@ -62,12 +62,15 @@ namespace LibreriaDeClases
 
         public void InsertarImagenes(int Id, List<byte[]> imagenes)
         {
-        
-            foreach (var item in imagenes)
+            if(imagenes.Count > 0)
             {
-                string sql = "INSERT INTO ImagenesProducto(IdProducto,Imagen) VALUES (@IdProducto,@Imagen)";
-                BaseDeDatos.Conection.Query(sql, new { IdProducto=Id, Imagen=item });
+                foreach (var item in imagenes)
+                {
+                    string sql = "INSERT INTO ImagenesProducto(IdProducto,Imagen) VALUES (@IdProducto,@Imagen)";
+                    BaseDeDatos.Conection.Query(sql, new { IdProducto=Id, Imagen=item });
+                }
             }
+            
         }
     }
 }

@@ -100,8 +100,16 @@ namespace AplicacionDeProductosWeb.Controllers
             VMProductoCategoria VM = new VMProductoCategoria();
           
             VM.producto = metodos.BuscarProducto(Id);
-            VM.categorias = metodos.ObtenerCategorias();
-            return View(VM);
+            if(VM.producto != null)
+            {
+                VM.categorias = metodos.ObtenerCategorias();
+                return View(VM);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+           
         }
         [HttpPost]
         public ActionResult EditarProducto(int Id,Producto producto, List<HttpPostedFileBase> FotoSubida, SuplidoresSeleccionados suplidores)

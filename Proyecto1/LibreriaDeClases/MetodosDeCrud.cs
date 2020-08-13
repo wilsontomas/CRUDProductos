@@ -73,19 +73,7 @@ namespace LibreriaDeClases
             if(BaseDeDatos.Conection.Execute(sql, new { @IdProducto = Id }) > 0)
             {
                 respuesta = true;
-            }
-               
-          /*  SqlCommand comando = BaseDeDatos.Conection.CreateCommand();
-            comando.CommandText = "DELETE FROM Productos WHERE IdProducto=@Id";
-            comando.Parameters.AddWithValue("@Id", Id);
-
-
-            BaseDeDatos.Conection.Open();
-            if (comando.ExecuteNonQuery() > 0)
-            {
-                respuesta = true;
-            }
-            BaseDeDatos.Conection.Close();*/
+            }      
             return respuesta;
         }
 

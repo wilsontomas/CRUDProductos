@@ -35,45 +35,35 @@ using Dapper;
         public List<Suplidor> ObtenerSuplidoresPorId(int Id)
         {
             List<Suplidor> suplidors = new List<Suplidor>();
-            SqlCommand Comand = BaseDeDatos.Conection.CreateCommand();
-            Comand.CommandText = "SELECT * FROM Suplidores WHERE ProductoId=@Id";
-            Comand.Parameters.AddWithValue("@Id", Id);
-            SqlDataReader reader = null;
-            BaseDeDatos.Conection.Open();
-            reader = Comand.ExecuteReader();
-            while (reader.Read())
+            string sql = "SELECT * FROM Suplidores WHERE ProductoId=@IdProducto";
+            var DatosSuplidores = BaseDeDatos.Conection.Query(sql, new { @IdProducto=Id });
+            foreach (var item in DatosSuplidores)
             {
                 Suplidor S = new Suplidor();
-                S.ProductoId = (int)reader["ProductoId"];
-                S.NombreSuplidor = (string)reader["NombreSuplidor"];
+                S.ProductoId = (int)item.ProductoId;
+                S.NombreSuplidor = (string)item.NombreSuplidor;              
                 suplidors.Add(S);
             }
-            BaseDeDatos.Conection.Close();
             return suplidors;
         }
 
         public void VaciarSuplidoresDeProducto(int Id)
         {
-            SqlCommand comand = BaseDeDatos.Conection.CreateCommand();
-            comand.CommandText = "DELETE FROM Suplidores WHERE ProductoId=@Id";
-            comand.Parameters.AddWithValue("@Id", Id);
-            BaseDeDatos.Conection.Open();
-            comand.ExecuteNonQuery();
-            BaseDeDatos.Conection.Close();
+           
+            string sql = "DELETE FROM Suplidores WHERE ProductoId=@IdProducto";
+            BaseDeDatos.Conection.Execute(sql, new { @IdProducto=Id });
         }
        public void InsertarSuplidores(SuplidoresSeleccionados datos, int Id)
         {
             List<Suplidor> suplidors = ObtenerListaSuplidores(datos, Id);
             if (suplidors.Count > 0)
             {
-                //insertamos los suplidores con el id del producto
-             
+                //insertamos los suplidores con el id del producto           
                  string sql = "INSERT INTO Suplidores(ProductoId,NombreSuplidor) VALUES (@ProductoId,@NombreSuplidor)";
                 foreach (var item in suplidors)
                 {
                     BaseDeDatos.Conection.Query(sql, new { ProductoId = item.ProductoId, NombreSuplidor = item.NombreSuplidor });
-                }
-            
+                }           
             }
         }
 

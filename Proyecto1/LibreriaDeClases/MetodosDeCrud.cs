@@ -9,7 +9,31 @@ namespace LibreriaDeClases
 {
     public class MetodosDeCrud : OpcionesSuplidores, IMetodosDeCrud
     {
+        public List<Categoria> ObtenerCategoriasADO()
+        {
 
+            string sql = "SELECT * FROM Categoria";
+            SqlCommand comando = new SqlCommand(sql,BaseDeDatos.Conection);
+
+            try 
+            {
+                BaseDeDatos.Conection.Open();
+                var reader = comando.ExecuteReader();
+            List<Categoria> listado = new List<Categoria>();
+            while (reader.Read())
+            {
+                listado.Add(new Categoria { IdCategoria = (int)reader[0], NombreCategoria = reader[1].ToString() });
+            }
+                reader.Close();
+                BaseDeDatos.Conection.Close();
+                
+                return listado;
+            } catch 
+            { Console.WriteLine("Ha ocurrido un error"); }
+            BaseDeDatos.Conection.Close();
+            return null;
+            
+        }
         public List<Categoria> ObtenerCategorias()
         {
            

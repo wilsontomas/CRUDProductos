@@ -9,6 +9,7 @@ namespace LibreriaDeClases
         bool EditarProducto(Producto producto);
         bool EliminarProducto(int Id);
         List<Categoria> ObtenerCategorias();
+        List<Categoria> ObtenerCategoriasADO();
         List<ProductoCategoria> ObtenerProductosCategorias();
     }
 }

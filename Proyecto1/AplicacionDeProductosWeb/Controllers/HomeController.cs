@@ -36,7 +36,8 @@ namespace AplicacionDeProductosWeb.Controllers
             
             Producto producto = new Producto();
             VMProductoCategoria VM = new VMProductoCategoria();
-            VM.categorias = metodos.ObtenerCategorias();
+            //VM.categorias = metodos.ObtenerCategorias();
+            VM.categorias = metodos.ObtenerCategoriasADO();
             VM.producto = producto;
             return View(VM);
         }
